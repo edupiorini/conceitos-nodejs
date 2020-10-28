@@ -11,7 +11,13 @@ app.use(cors());
 const repositories = [];
 
 app.get("/repositories", (request, response) => {
-  // TODO
+  const{ title } = request.query;
+
+  const result = title 
+  ? repositories.filter((repository) => repository.title.includes(title))
+  : repositories;
+
+  return response.json(result);
 });
 
 app.post("/repositories", (request, response) => {
@@ -45,7 +51,7 @@ app.delete("/repositories/:id", (request, response) => {
 app.post("/repositories/:id/like", (request, response) => {
   const { id } = request.params;
 
-  const repo = repositories.find(repository => repository.id === id);
+  const repo = repositories.find(repository => repository.id === id)
 
 
   repo.likes += 1;
