@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
-// const { v4: uuid, validate: isUuid } = require('uuid');
+const { v4: uuid, validate: isUuid } = require('uuid');
 
 const app = express();
 
@@ -26,12 +26,12 @@ app.post("/repositories", (request, response) => {
     title, 
     url,
     techs,
-    likes = 0
+    likes: 0
   };
 
   repositories.push(repository);
 
-  return response.json(project);
+  return response.json(repository);
 });
 
 app.put("/repositories/:id", (request, response) => {
@@ -43,7 +43,14 @@ app.delete("/repositories/:id", (request, response) => {
 });
 
 app.post("/repositories/:id/like", (request, response) => {
-  // TODO
+  const { id } = request.params;
+
+  const repo = repositories.find(repository => repository.id === id);
+
+
+  repo.likes += 1;
+
+  return response.json(repo);
 });
 
 module.exports = app;
